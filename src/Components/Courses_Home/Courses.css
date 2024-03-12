@@ -17,3 +17,7 @@
     
     transition: all 0.4s ease-in-out;
 }
+.coursecardhome{
+    box-shadow: 5px 5px 5px 8[x] 5px black ;
+    /* box-shadow: 5px 5px 5px black ; */
+}

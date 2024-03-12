@@ -13,8 +13,8 @@ import Our_features from '../Our_features'
 export default function Home(){
     return(<>
     <div className='w-full bg-gradient-to-r from-[#FFF5BE] to-[#D0F7EA] '>
-    <div className="h-[88vh] flex w-full px-[5%]  pt-10 wave justify-between items-center 2xl:h-[70vh]">
-        <div className="w-[45%]  2xl:space-y-5 2xl:w-[50%]">
+    <div className="h-[83vh] flex w-full px-[5%]   wave justify-between items-center 2xl:h-[70vh]">
+        <div className="w-[60%] space-y-5  2xl:space-y-5 2xl:w-[50%]">
             <div className="text-6xl font-bold text-left font-outfit">Level Up Your Skills. Stand Out from the Crowd</div>
             <div className='font-mons font-semibold text-lg'>(learn anytime, earn academic credits anywhere)</div>
             <div className="flex text-[20px]  w-full pt-5">
@@ -39,7 +39,7 @@ export default function Home(){
             </div>
         </div>
 
-        <div className='w-[40%] flex h-full  justify-center items-end'>
+        <div className='w-[40%] flex  justify-end items-end h-[100%] '>
             <div className='h-full  '>
                 <img className='h-full object-cover' src='/girl.png'/>
             </div>
