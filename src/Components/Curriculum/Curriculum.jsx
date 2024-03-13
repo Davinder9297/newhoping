@@ -7,6 +7,7 @@ import folderIcon from "../../Assets/folder.png";
 
 function Curriculum(props) {
 let {data}=props;
+const [clicked, setclicked] = useState(false)
 // console.log(data);
 // let {BeforeSubscriptiondata}=useContext(globalProvider)
 // console.log(BeforeSubscriptiondata());
@@ -23,22 +24,35 @@ let {data}=props;
     }));
   };
 
+  function ClickSection(id) {
+    if (!clicked) {
+      setclicked(true);
+      let inner = document.getElementById(id);
+      // console.log(inner);
+      inner.style.display = "none";
+    } else {
+      setclicked(false);
+      let inner = document.getElementById(id);
 
+      // console.log(inner);
+      inner.style.display = "block";
+    }
+  }
   return (
     <div className='curriculum' id='curriculum'>
       <p>Fast track your journey to become a skilled developer in just 6 months with our best Full Stack Developer Course.</p>
 
       <div className='curriculum-lessons'>
 {
-  data?.map((item)=>{
+  data?.map((item,ind)=>{
     let {lessons}=item;
     return(<>
-    <div className='lesson-container'>
+    <div className='lesson-container' onClick={() => ClickSection(ind)}>
 
-<div className='lesson-container-title'>
+<div className='lesson-container-title' >
     <div className='lesson-container-title-left'>
-      <div className='icon-arrow' onClick={() => toggleVisibility('lesson1')}><img src={arrowIcon} className={isVisible.lesson1 ? 'icon-rotated' : ''}/></div>
-      <p className={isVisible ? 'para-color' : ''}>{item.chapter_name}</p>
+      <div className='icon-arrow' ><img src={arrowIcon} /></div>
+      <p className={'para-color'}>{item.chapter_name}</p>
     </div>
 
     <div className='lesson-container-title-right'>
@@ -47,8 +61,8 @@ let {data}=props;
     </div>
 </div>
 
-{isVisible.lesson1 && (
-<div className={`lesson-container-contents ${isVisible ? 'visible' : ''}`}>
+
+<div id={ind} className={`lesson-container-contents `}>
 
 {
   lessons?.map((it)=>{
@@ -65,9 +79,9 @@ let {data}=props;
   </div>
     </>)
   })
-}
+  }
 </div>
-)}
+
 </div>
     </>)
   })

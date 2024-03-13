@@ -1,16 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ReactComponent as Arrow } from "../../Assets/Icons/arrow.svg";
 import Mycourses from "./my_courses";
 import WishlistContent from "./wishlistContent";
 import Archieved from "./Archieved";
 import Assignments from "./Assignments";
 import Certificate from "../Certificate/Certificate";
+import { useNavigate } from "react-router-dom";
 
 export default function My_learning() {
   const [showpage, setshowpage] = useState("courses");
-  // const Borders={
-  //     "courses":
-  // }
+  let navigate=useNavigate()
+useEffect(() => {
+  let login=localStorage.getItem('COURSES_USER_TOKEN')
+  if(!login){
+    navigate('/login')
+  }
+}, [])
+
 
   return (
     <>

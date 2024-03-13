@@ -38,8 +38,8 @@ const Router = () => {
            <ScrollToTop/>
                 <Navbar />
                 <Routes>
-                    <Route exact path={'/'} element={<Home />}></Route>
-                    <Route exact path={'/learning'} element={<My_learning />}></Route>
+                    {/* <Route exact path={'/'} element={<Home />}></Route> */}
+                    <Route exact path={'/'} element={<My_learning />}></Route>
                     <Route exact path={'/wishlist'} element={<Wishlist />}></Route>
                     <Route exact path={'/login'} element={<Login />}></Route>
                     <Route exact path={'/register'} element={<Registration/>}></Route>

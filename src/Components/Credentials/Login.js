@@ -45,6 +45,7 @@ const {Islogin}=useContext(Globalprovider)
       toast.success("Login Successfull")
 
       // getUserDetails()
+      console.log(res.data);
       localStorage.setItem('COURSES_USER_TOKEN', res.data.msg)
       Islogin()
       setTimeout(() => {

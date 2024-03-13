@@ -17,13 +17,13 @@ export default function Home(){
         <div className="w-[60%] space-y-5  2xl:space-y-5 2xl:w-[50%]">
             <div className="text-6xl font-bold text-left font-outfit">Level Up Your Skills. Stand Out from the Crowd</div>
             <div className='font-mons font-semibold text-lg'>(learn anytime, earn academic credits anywhere)</div>
-            <div className="flex text-[20px]  w-full pt-5">
+            <div className="flex text-[20px]  w-full ">
                 <div className="w-full font-mons text-[#4E5566]">Explore over 1000 courses across various technology domains to broaden your skills and uncover exciting opportunities</div>
             </div>
             <div className="flex font-mons h-12 w-[340px]  justify-between mt-5">
                 <button className="bg-[#333333] w-40 rounded-full text-white font-semibold">Start Trial</button>
             </div>
-            <div className="flex mt-3 justify-start 2xl:w-[50%]">
+            <div className="flex mt-3 justify-start space-x-5 2xl:w-[50%]">
                 <div className="w-28 font-mons">
                     <div className="text-[#1DBF73] font-bold text-[30px]">100+</div>
                     <div className='text-[#333333] font-bold'>Courses to learn</div>
@@ -59,6 +59,6 @@ export default function Home(){
     <Companies/>
     {/* <CourseFeatures/> */}
     <Our_features/>
-    <Testimonials />
+    {/* <Testimonials /> */}
     </>)
 }
