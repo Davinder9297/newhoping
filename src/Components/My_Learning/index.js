@@ -6,17 +6,43 @@ import Archieved from "./Archieved";
 import Assignments from "./Assignments";
 import Certificate from "../Certificate/Certificate";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
+import { COURSESURL } from "../Confidential";
+import Spinner from "../Spinner";
+
 
 export default function My_learning() {
   const [showpage, setshowpage] = useState("courses");
-  let navigate=useNavigate()
-useEffect(() => {
-  let login=localStorage.getItem('COURSES_USER_TOKEN')
-  if(!login){
-    navigate('/login')
-  }
-}, [])
+  const [purchasedCourses, setPurchasedCourses] = useState();
+  const [show, setshow] = useState(false)
+  let navigate = useNavigate()
+  useEffect(() => {
+    let login = localStorage.getItem('COURSES_USER_TOKEN')
+    console.log(login)
+    if (!login) {
+      navigate('/login')
+    }
+    else {
+      const token = localStorage.getItem('COURSES_USER_TOKEN');
+      const decoded = jwtDecode(token);
+      console.log(decoded)
+      fetchUserData(decoded?.email)
+    }
+  }, [])
 
+  const fetchUserData = async (email) => {
+    setshow(true)
+    try {
+      const res = await axios.get(`${COURSESURL}user/${email}`)
+      console.log(res.data[0]?.purchased_courses)
+      setPurchasedCourses(res?.data[0]?.purchased_courses)
+      setshow(false)
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
 
   return (
     <>
@@ -38,8 +64,8 @@ useEffect(() => {
         `}
       </style>
 
-      <div className="h-full bg-black w-full pl-2 pt-2 pb-4">
-        <Arrow className="arrow" />
+      <div className="h-full bg-black w-full pl-2 pt-5 pb-5">
+        {/* <Arrow className="arrow" /> */}
         <div className="text-6xl text-white font-outfit pl-20 font-semibold learning xsm:pl-8">
           My Learning
         </div>
@@ -56,7 +82,7 @@ useEffect(() => {
           >
             My Courses
           </button>
-          <button
+          {/* <button
             onClick={() => setshowpage("assignments")}
             style={{
               borderBottom:
@@ -67,8 +93,8 @@ useEffect(() => {
             className="pb-1 button"
           >
             Assignments
-          </button>
-          <button
+          </button> */}
+          {/* <button
             onClick={() => setshowpage("archieved")}
             style={{
               borderBottom:
@@ -79,8 +105,8 @@ useEffect(() => {
             className="pb-1 button"
           >
             Archived
-          </button>
-          <button
+          </button> */}
+          {/* <button
             className="pb-1 button"
             style={{
               borderBottom:
@@ -91,8 +117,8 @@ useEffect(() => {
             onClick={() => setshowpage("wishlist")}
           >
             Wishlist
-          </button>
-          <button
+          </button> */}
+          {/* <button
             className="pb-1 button"
             style={{
               borderBottom:
@@ -103,11 +129,11 @@ useEffect(() => {
             onClick={() => setshowpage("certificate")}
           >
             Certifications
-          </button>
+          </button> */}
         </div>
       </div>
       {showpage === "courses" ? (
-        <Mycourses />
+        <Mycourses courses={purchasedCourses} />
       ) : showpage === "wishlist" ? (
         <WishlistContent />
       ) : showpage === "archieved" ? (
@@ -117,6 +143,10 @@ useEffect(() => {
       ) : (
         <Assignments />
       )}
+      {show ? <div className='w-full h-screen fixed -top-4 left-0 bg-[#b4cca1] opacity-80'>
+                <Spinner className='' />
+
+            </div> : ''}
     </>
   );
 }

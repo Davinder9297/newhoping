@@ -1,16 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./CCDetails.css";
 import ReactPlayer from "react-player";
 import ChatBot from "../chatbot/chatbot";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { COURSESURL } from "../Confidential";
+import Spinner from "../Spinner";
 
 export default function CDDetails() {
   const [clicked, setclicked] = useState(false);
-  const [slug, setslug] = useSearchParams();
-  console.log(slug);
-  // useEffect(() => {
-  //     ClickSection();
-  // }, [])
+  const [show, setshow] = useState(false)
+  // const [slug, setslug] = useSearchParams();'
+  const [Data, setData] = useState([])
+  let param=useParams()
+  let slug=param.slug;
+  let navigate=useNavigate()
+  useEffect(() => {
+    let login = localStorage.getItem('COURSES_USER_TOKEN')
+    console.log(login)
+    if (!login) {
+      navigate('/login')
+    }
+   else{
+    async function Fetchdata(){
+   try {
+    setshow(true)
+    let url=COURSESURL+'course/'+slug
+    const data = await fetch(url);
+    const response=await data.json()
+    setData(response.course)
+    setshow(false)
+    // console.log(response.course);
+   } catch (error) {
+    console.log(error);
+   }
+   }
+   Fetchdata()
+   }
+  }, [])
 
   function ClickSection(id) {
     if (!clicked) {
@@ -37,7 +63,9 @@ export default function CDDetails() {
                 height="100%"
                 width="100%"
                 playing={true}
-                url="https://www.youtube.com/watch?v=XewspIh58Qg"
+                loop={true}
+                
+                url={Data?.featured_video}
               />
               <div className="absolute right-0 bottom-0 ">
                 <ChatBot className="w-[100%]" />
@@ -52,28 +80,28 @@ export default function CDDetails() {
             <div className="CCDetails-Header-main bg-black">
               <div className="CCDetails-Header-content-left">
                 <div className="CCDetails-Header-content-row1">
-                  <h2>The Ultimate Guide to the best Full Stack Development</h2>
+                  <h2>{Data?.title}</h2>
                 </div>
                 <div className="CCDetails-Header-content-row2">
                   <div className="CCDetails-Header-content-row2-clock">
                     <img src="../Icons/clockfilled.svg" alt="clock"></img>
-                    <p> 2Weeks</p>
+                    <p>{Data?.duration}</p>
                   </div>
                   <div className="CCDetails-Header-content-row2-hat">
                     <img src="../Icons/hat.svg" alt="hat"></img>
-                    <p> 156 Students</p>
+                    <p> {Data?.enrollments/1000}k Students</p>
                   </div>
                   <div className="CCDetails-Header-content-row2-level">
                     <img src="../Icons/barchartgreen.svg" alt="bar-chart"></img>
-                    <p> All levels</p>
+                    <p> {Data?.level}</p>
                   </div>
                   <div className="CCDetails-Header-content-row2-files">
                     <img src="../Icons/files.svg" alt="files"></img>
-                    <p> 20 Lessons</p>
+                    <p> {Data?.total_lessons} Lessons</p>
                   </div>
                   <div className="CCDetails-Header-content-row2-faq">
                     <img src="../Icons/faq.svg" alt="faq"></img>
-                    <p> 3 Quizzes</p>
+                    <p> {Data?.total_quiz} Quizzes</p>
                   </div>
                 </div>
               </div>
@@ -81,23 +109,22 @@ export default function CDDetails() {
             <div className="CCD-Main-container">
               <div className="CCD-Main-container-content">
                 <p>
-                  Learn how to effortlessly build responsive and dynamic web
-                  applications using JavaScript, React, and Node under the
-                  mentorship of our experienced faculty. Our tried-and-true
-                  methods are tailored to your learning pace to ensure the best
-                  results. A full-stack developer is a developer or engineer who
-                  can build both the front end and the back end of a website.
-                  The front end (the parts of a website a user sees and
-                  interacts with) and the back end (the behind-the-scenes data
-                  storage and processing) require different skill sets
+                  {
+                    Data?.whatWillILearn?.map((item)=>{
+                      return(<>
+                      {item}.
+                      </>)
+                    })
+                  }
+                 
                 </p>
               </div>
-              <div className="CCD-Main-container-btn">
+              {/* <div className="CCD-Main-container-btn">
                 <button>
                   <p>Get Your Certification</p>
                   <img src="../Icons/download.svg" alt="download"></img>
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="w-[59%]">
@@ -296,6 +323,10 @@ export default function CDDetails() {
             </div>
           </div>
         </div>
+        {show ? <div className='w-full h-screen fixed -top-4 left-0 bg-[#b4cca1] opacity-80'>
+                <Spinner className='' />
+
+            </div> : ''}
       </div>
     </>
   );

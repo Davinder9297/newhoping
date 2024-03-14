@@ -1,26 +1,43 @@
 import ReactPlayer from 'react-player';
 import Main from '../Main/Main';
 import './CDHeader.css';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Overview_content from '../Overview_content';
 import { COURSESURL } from '../Confidential';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import Spinner from '../Spinner';
 
 function CDHeader() {
     const [Data, setData] = useState([])
+    const [show, setshow] = useState(false)
     const param=useParams()
     // console.log(param);
     let slug=param.slug;
+    let navigate=useNavigate()
+
     useEffect(() => {
-     async function Fetchdata(){
-        let url=COURSESURL+'course/'+slug
-        const data = await fetch(url);
-        const response=await data.json()
-        setData(response.course)
-        // console.log(response.course);
-     }
-     Fetchdata()
+        let login = localStorage.getItem('COURSES_USER_TOKEN')
+        console.log(login)
+        if (!login) {
+          navigate('/login')
+        }
+    else{
+        async function Fetchdata(){
+            try {
+                setshow(true)
+            let url=COURSESURL+'course/'+slug
+            const data = await fetch(url);
+            const response=await data.json()
+            setData(response.course)
+            setshow(false)
+            } catch (error) {
+                console.log(error);
+            }
+            // console.log(response.course);
+         }
+         Fetchdata()
+    }
     }, [])
     
     return (<>
@@ -69,13 +86,16 @@ function CDHeader() {
                             <p><span>₹59.0 </span>₹49.0</p>
                         </div>
                         <div className="Header-box-content-btn">
-                            <Link to={`/checkout/${Data.slug}`}>Start Now</Link>
+                            <Link to={`/single/${Data.slug}`}>Start Now</Link>
                         </div>
                     </div>
                 </div>
             </div>
 
-           
+            {show ? <div className='w-full h-screen fixed -top-4 left-0 bg-[#b4cca1] opacity-80'>
+                <Spinner className='' />
+
+            </div> : ''}
 
         </div>
         {/* <Main /> */}

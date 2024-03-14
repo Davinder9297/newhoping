@@ -14,7 +14,7 @@ import { Globalprovider } from "../../App";
 
 
 const Login = () => {
-const {Islogin}=useContext(Globalprovider)
+  const { Islogin } = useContext(Globalprovider)
   const navigate = useNavigate();
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -36,7 +36,7 @@ const {Islogin}=useContext(Globalprovider)
     setBtnLoader(true);
     try {
       const res = await axios.post(`${COURSESURL}login`, {
-        email: user.email,
+        email: user.username,
         password: user.password,
       })
 
@@ -45,8 +45,8 @@ const {Islogin}=useContext(Globalprovider)
       toast.success("Login Successfull")
 
       // getUserDetails()
-      console.log(res.data);
-      localStorage.setItem('COURSES_USER_TOKEN', res.data.msg)
+      // console.log(res.data);
+      localStorage.setItem('COURSES_USER_TOKEN', res.data.token)
       Islogin()
       setTimeout(() => {
         navigate('/')
@@ -66,10 +66,10 @@ const {Islogin}=useContext(Globalprovider)
 
   return (
     <>
-      <div className="flex flex-col">
-        <div className="flex flex-col p-4 px-14 pb-28">
+      <div className="flex flex-col ">
+        <div className="flex flex-col p-4 px-14 ">
           <div>
-            <Arrow onClick={handleLogin} className="cursor-arrow" />
+            <Arrow onClick={() => navigate('/login')} className="cursor-arrow" />
           </div>
           <div className="flex justify-center items-center">
             <div className="w-[630px] border border-[#EAEAEA] flex flex-col justify-center rounded-2xl p-6 pb-14 gap-6">

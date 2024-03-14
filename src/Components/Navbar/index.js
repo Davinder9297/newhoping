@@ -19,6 +19,18 @@ useEffect(() => {
 // console.log(id);
         navigate(id)
     }
+    function Accountclick(){
+        // confirm("dfa")
+        if(window.confirm("Are your sure to log out?")){
+            // console.log("yes");
+            localStorage.removeItem('COURSES_USER_TOKEN')
+            Islogin()
+            navigate('/login')
+        }
+        else{
+            console.log("no");
+        }
+    }
     return(<>
     <div className="h-[80px] flex justify-between items-center font-mons px-[5%] 2xl:px-[0%]">
         <div className="flex justify-center items-center text-[#4E5566] space-x-20">
@@ -48,7 +60,7 @@ useEffect(() => {
             <Link to='/notification'><Bell/></Link>           
             {/* <Link to='/learning/wishlist'><Heart/></Link> */}
             <Link to='/cart'><Cart /></Link>
-            {login?<Account/>:<div className='flex'> <Link to='/register' className='text-[#1D2026] font-mons py-2 px-4 text-[16px] font-semibold'>Create Account</Link>
+            {login?<Account className='cursor-pointer' onClick={Accountclick}/>:<div className='flex'> <Link to='/register' className='text-[#1D2026] font-mons py-2 px-4 text-[16px] font-semibold'>Create Account</Link>
             <Link to='/login' className='text-white font-mons py-2 px-4 text-center text-[16px] font-semibold bg-[#1D2026] rounded-full'>Sign In</Link></div>}
         </div>
     </div>
